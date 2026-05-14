@@ -14,7 +14,7 @@ export async function rateLimit(
   const ttl = await redis.ttl(redisKey);
 
   if (count > limit) {
-    throw new AppError("RATE_LIMITED", "Too many requests", 429, {
+    throw new AppError("RATE_LIMITED", "操作太频繁，请稍后再试", 429, {
       retryAfter: ttl,
     });
   }

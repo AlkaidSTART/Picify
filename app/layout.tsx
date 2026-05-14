@@ -1,13 +1,9 @@
 import type { Metadata } from "next";
-import { Fraunces, Manrope } from "next/font/google";
 import "./globals.css";
 
-const sans = Manrope({ subsets: ["latin"], variable: "--font-sans" });
-const display = Fraunces({ subsets: ["latin"], variable: "--font-display" });
-
 export const metadata: Metadata = {
-  title: "Picify",
-  description: "AI scene-based image generation platform",
+  title: "Picify 场景化 AI 出图",
+  description: "面向 C 端用户的场景化 AI 出图平台",
 };
 
 export default function RootLayout({
@@ -16,10 +12,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      className={`${sans.variable} ${display.variable} h-full antialiased`}
-      lang="zh-CN"
-    >
+    <html className="h-full antialiased" lang="zh-CN">
       <body className="flex min-h-full flex-col bg-[var(--color-base)] text-[var(--color-ink)]">
         {children}
       </body>

@@ -50,7 +50,10 @@ export async function middleware(req: NextRequest) {
 
 function respondUnauthorized(req: NextRequest) {
   if (req.nextUrl.pathname.startsWith("/api")) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { error: "您没有访问权限，请先登录。" },
+      { status: 401 },
+    );
   }
 
   return NextResponse.redirect(new URL("/", req.url));

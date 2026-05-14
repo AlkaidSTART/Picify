@@ -1,30 +1,64 @@
 @import "tailwindcss";
 
 :root {
-  --color-base: #f7f5f0;
-  --color-ink: #1a1a1a;
-  --color-muted: #5d6572;
+  --color-base: #f7f8fa;
+  --color-ink: #121417;
+  --color-muted: #4e5865;
   --color-card: #ffffff;
-  --color-border: #e2e0da;
-  --color-brand: #78b9ff;
-  --color-brand-strong: #2f7fe6;
-  --color-ice: #eef5ff;
-  --color-shadow: rgba(25, 40, 70, 0.08);
+  --color-border: rgba(18, 20, 23, 0.1);
+  --color-border-strong: rgba(18, 20, 23, 0.18);
+  --color-brand: #eaf3ff;
+  --color-brand-strong: #7fb0ea;
+  --color-ice: rgba(255, 255, 255, 0.72);
+  --color-panel: rgba(255, 255, 255, 0.82);
+  --color-shadow: rgba(15, 23, 35, 0.08);
 }
 
 @theme inline {
   --color-background: var(--color-base);
   --color-foreground: var(--color-ink);
+  --font-sans:
+    "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei",
+    sans-serif;
+  --font-display:
+    "Iowan Old Style", "Songti SC", "STSong", "Noto Serif SC", serif;
   --font-mono:
     "SFMono-Regular", "JetBrains Mono", "Fira Code", "Courier New", monospace;
 }
 
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--color-base);
+  background:
+    radial-gradient(circle at 15% 10%, rgba(127, 176, 234, 0.2), transparent 35%),
+    radial-gradient(circle at 85% 0%, rgba(255, 255, 255, 0.9), transparent 42%),
+    var(--color-base);
   color: var(--color-ink);
   font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
 }
 
 .font-display {
   font-family: var(--font-display);
+}
+
+.glass-panel {
+  background: var(--color-panel);
+  border: 1px solid var(--color-border);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 10px 32px var(--color-shadow);
+}
+
+.section-label {
+  color: var(--color-muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
 }

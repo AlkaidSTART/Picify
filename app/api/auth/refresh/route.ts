@@ -14,7 +14,7 @@ import { setAuthCookies } from "@/lib/auth/cookies";
 export const POST = withApiHandler(async (req: NextRequest) => {
   const refreshToken = req.cookies.get("refresh_token")?.value;
   if (!refreshToken) {
-    throw new AppError("REFRESH_TOKEN_MISSING", "Refresh token missing", 401);
+    throw new AppError("REFRESH_TOKEN_MISSING", "登录状态已过期", 401);
   }
 
   const refreshTokenHash = hashRefreshToken(refreshToken);
@@ -23,14 +23,18 @@ export const POST = withApiHandler(async (req: NextRequest) => {
   });
 
   if (!record || record.expiresAt <= new Date()) {
-    throw new AppError("REFRESH_TOKEN_INVALID", "Refresh token invalid", 401);
+    throw new AppError(
+      "REFRESH_TOKEN_INVALID",
+      "身份验证无效，请重新登录",
+      401,
+    );
   }
 
   await prisma.refreshToken.delete({ where: { id: record.id } });
 
   const user = await prisma.user.findUnique({ where: { id: record.userId } });
   if (!user) {
-    throw new AppError("USER_NOT_FOUND", "User not found", 404);
+    throw new AppError("USER_NOT_FOUND", "找不到相关用户信息", 404);
   }
 
   const accessToken = await createAccessToken({

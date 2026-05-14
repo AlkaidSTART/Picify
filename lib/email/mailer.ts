@@ -8,11 +8,7 @@ export function getMailTransport() {
   const pass = process.env.EMAIL_PASS;
 
   if (!host || !port || !user || !pass) {
-    throw new AppError(
-      "EMAIL_CONFIG_MISSING",
-      "Email configuration is incomplete",
-      500,
-    );
+    throw new AppError("EMAIL_CONFIG_MISSING", "邮件服务配置不完整", 500);
   }
 
   return nodemailer.createTransport({

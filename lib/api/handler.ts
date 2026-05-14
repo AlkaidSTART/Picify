@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
 import { AppError } from "./errors";
 
-type HandlerContext = { params?: Record<string, string> };
+type HandlerContext = { params: Promise<Record<string, string>> };
 
 type ApiHandler = (
   req: NextRequest,
@@ -32,7 +32,7 @@ export function withApiHandler(handler: ApiHandler) {
           {
             error: {
               code: "VALIDATION_FAILED",
-              message: "Invalid input",
+              message: "请求参数不合法",
               details: error.flatten(),
             },
           },
@@ -42,7 +42,10 @@ export function withApiHandler(handler: ApiHandler) {
 
       return NextResponse.json(
         {
-          error: { code: "INTERNAL_ERROR", message: "Unexpected server error" },
+          error: {
+            code: "INTERNAL_ERROR",
+            message: "服务器开小差了，请稍后重试",
+          },
         },
         { status: 500 },
       );

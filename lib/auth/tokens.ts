@@ -13,11 +13,7 @@ const REFRESH_TOKEN_TTL_SECONDS = 60 * 60 * 24 * 7;
 function getJwtSecret() {
   const secret = process.env.JWT_SECRET;
   if (!secret) {
-    throw new AppError(
-      "JWT_SECRET_MISSING",
-      "JWT secret is not configured",
-      500,
-    );
+    throw new AppError("JWT_SECRET_MISSING", "系统未配置鉴权密钥", 500);
   }
   return new TextEncoder().encode(secret);
 }

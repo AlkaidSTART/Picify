@@ -7,11 +7,7 @@ const MUTATION_METHODS = new Set(["POST", "PUT", "PATCH", "DELETE"]);
 function getCsrfSecret() {
   const secret = process.env.CSRF_SECRET;
   if (!secret) {
-    throw new AppError(
-      "CSRF_SECRET_MISSING",
-      "CSRF secret is not configured",
-      500,
-    );
+    throw new AppError("CSRF_SECRET_MISSING", "安全配置不完整", 500);
   }
   return secret;
 }
@@ -52,7 +48,7 @@ export function assertCsrf(req: NextRequest) {
   ) {
     throw new AppError(
       "CSRF_TOKEN_INVALID",
-      "CSRF token missing or invalid",
+      "安全验证失败，请刷新页面重试",
       403,
     );
   }

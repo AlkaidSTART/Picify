@@ -32,11 +32,7 @@ export const POST = withApiHandler(async (req: NextRequest) => {
   });
 
   if (!otpRecord) {
-    throw new AppError(
-      "OTP_INVALID",
-      "Invalid or expired verification code",
-      400,
-    );
+    throw new AppError("OTP_INVALID", "验证码无效或已过期", 400);
   }
 
   await prisma.otpCode.update({
