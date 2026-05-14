@@ -17,7 +17,7 @@ export const POST = withApiHandler(async (req: NextRequest) => {
     throw new AppError("REFRESH_TOKEN_MISSING", "登录状态已过期", 401);
   }
 
-  const refreshTokenHash = hashRefreshToken(refreshToken);
+  const refreshTokenHash = await hashRefreshToken(refreshToken);
   const record = await prisma.refreshToken.findUnique({
     where: { token: refreshTokenHash },
   });
@@ -41,8 +41,8 @@ export const POST = withApiHandler(async (req: NextRequest) => {
     userId: user.id,
     email: user.email,
   });
-  const newRefreshToken = createRefreshToken();
-  const newRefreshHash = hashRefreshToken(newRefreshToken);
+  const newRefreshToken = await createRefreshToken();
+  const newRefreshHash = await hashRefreshToken(newRefreshToken);
 
   await prisma.refreshToken.create({
     data: {

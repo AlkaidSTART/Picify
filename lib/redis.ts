@@ -50,7 +50,7 @@ const redisUrl = process.env.REDIS_URL;
 const globalForRedis = globalThis as unknown as { redis?: RedisLike };
 
 export const redis: RedisLike =
-  globalForRedis.redis ?? (redisUrl ? new Redis(redisUrl) : new MemoryRedis());
+  globalForRedis.redis ?? (redisUrl ? new Redis(redisUrl, { lazyConnect: true, maxRetriesPerRequest: null, retryStrategy: () => null }) : new MemoryRedis());
 
 if (process.env.NODE_ENV !== "production") {
   globalForRedis.redis = redis;

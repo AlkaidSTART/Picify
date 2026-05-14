@@ -1,5 +1,4 @@
 import { SignJWT, jwtVerify } from "jose";
-import { createHash, randomBytes } from "crypto";
 import { AppError } from "@/lib/api/errors";
 
 export type AccessTokenPayload = {
@@ -38,12 +37,21 @@ export async function verifyAccessToken(token: string) {
   }
 }
 
-export function createRefreshToken() {
-  return randomBytes(32).toString("base64url");
+export async function createRefreshToken() {
+  const array = new Uint8Array(32);
+  crypto.getRandomValues(array);
+  return btoa(String.fromCharCode(...array))
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "");
 }
 
-export function hashRefreshToken(token: string) {
-  return createHash("sha256").update(token).digest("hex");
+export async function hashRefreshToken(token: string) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(token);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
 export function getRefreshTokenTtlSeconds() {

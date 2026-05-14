@@ -50,8 +50,8 @@ export const POST = withApiHandler(async (req: NextRequest) => {
     userId: user.id,
     email: user.email,
   });
-  const refreshToken = createRefreshToken();
-  const refreshTokenHash = hashRefreshToken(refreshToken);
+  const refreshToken = await createRefreshToken();
+  const refreshTokenHash = await hashRefreshToken(refreshToken);
 
   await prisma.refreshToken.create({
     data: {

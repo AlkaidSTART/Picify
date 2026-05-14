@@ -1,3 +1,4 @@
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,18 +8,21 @@ datasource db {
 }
 
 model User {
-  id               String         @id @default(cuid())
-  email            String         @unique
-  nickname         String         @default("")
+  id               String    @id @default(cuid())
+  email            String    @unique
+  nickname         String    @default("")
   avatar           String?
   persona          String?
-  remainingCredits Int            @default(0)
-  totalGenerated   Int            @default(0)
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
+  remainingCredits Int       @default(0)
+  totalGenerated   Int       @default(0)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
 
-  otpCodes         OtpCode[]
-  refreshTokens    RefreshToken[]
+  otpCodes       OtpCode[]
+  refreshTokens  RefreshToken[]
+  tasks          GenerationTask[]
+  cdkRedemptions CdkCode[]
+  creditLogs     CreditLedger[]
 }
 
 model OtpCode {
@@ -45,4 +49,83 @@ model RefreshToken {
   user      User     @relation(fields: [userId], references: [id])
 
   @@index([userId])
+}
+
+model GenerationTask {
+  id             String    @id @default(cuid())
+  userId         String
+  persona        String
+  scene          String
+  params         Json
+  mode           String    @default("basic")
+  rawPrompt      String?
+  enhancedPrompt String?
+  reasoning      Json?
+  status         String    @default("pending")
+  imageUrl       String?
+  imageSize      Int?
+  imageWidth     Int?
+  imageHeight    Int?
+  costCredits    Int
+  errorMessage   String?
+  retryCount     Int       @default(0)
+  createdAt      DateTime  @default(now())
+  completedAt    DateTime?
+
+  user           User      @relation(fields: [userId], references: [id])
+
+  @@index([userId, createdAt])
+  @@index([status])
+}
+
+model CdkCode {
+  id               String    @id @default(cuid())
+  codeHash         String    @unique
+  packageType      String
+  credits          Int
+  bonusCredits     Int       @default(0)
+  status           String    @default("unused")
+  createdBy        String?
+  expiresAt        DateTime?
+  redeemedAt       DateTime?
+  redeemedByUserId String?
+  createdAt        DateTime  @default(now())
+
+  redeemedBy       User?     @relation(fields: [redeemedByUserId], references: [id])
+
+  @@index([status, expiresAt])
+  @@index([redeemedByUserId])
+}
+
+model CreditLedger {
+  id           String   @id @default(cuid())
+  userId       String
+  change       Int
+  balanceAfter Int
+  type         String
+  reason       String?
+  refType      String?
+  refId        String?
+  createdAt    DateTime @default(now())
+
+  user         User     @relation(fields: [userId], references: [id])
+
+  @@index([userId, createdAt])
+  @@index([refType, refId])
+}
+
+model SceneTemplate {
+  id             String   @id @default(cuid())
+  persona        String
+  sceneName      String
+  sceneIcon      String
+  description    String
+  params         Json
+  promptTemplate String
+  sampleImages   String[]
+  sortOrder      Int      @default(0)
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+
+  @@index([persona, isActive])
 }

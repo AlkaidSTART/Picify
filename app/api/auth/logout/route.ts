@@ -11,7 +11,7 @@ export const POST = withApiHandler(async (req: NextRequest) => {
   const refreshToken = req.cookies.get("refresh_token")?.value;
   if (refreshToken) {
     await prisma.refreshToken.deleteMany({
-      where: { token: hashRefreshToken(refreshToken) },
+      where: { token: await hashRefreshToken(refreshToken) },
     });
   }
 
