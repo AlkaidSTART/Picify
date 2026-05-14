@@ -1,1 +1,1 @@
-# Picify-
+# Picify
