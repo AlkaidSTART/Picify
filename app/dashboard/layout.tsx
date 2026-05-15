@@ -3,5 +3,5 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="min-h-screen bg-[var(--color-base)]">{children}</div>;
+  return <div className="min-h-screen bg-white">{children}</div>
 }

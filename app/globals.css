@@ -1,17 +1,26 @@
 @import "tailwindcss";
 
 :root {
-  --color-base: #f7f8fa;
+  /* ── 基础色系（零灰色，蓝调渗透）── */
+  --color-base: #ffffff;
   --color-ink: #121417;
-  --color-muted: #4e5865;
+  --color-muted: #3a5073;
   --color-card: #ffffff;
-  --color-border: rgba(18, 20, 23, 0.1);
-  --color-border-strong: rgba(18, 20, 23, 0.18);
-  --color-brand: #eaf3ff;
+  --color-border: rgba(127, 176, 234, 0.22);
+  --color-border-strong: rgba(127, 176, 234, 0.38);
+
+  /* ── 马卡龙蓝体系 ── */
+  --color-brand: #e8f2ff;
   --color-brand-strong: #7fb0ea;
-  --color-ice: rgba(255, 255, 255, 0.72);
-  --color-panel: rgba(255, 255, 255, 0.82);
-  --color-shadow: rgba(15, 23, 35, 0.08);
+  --color-brand-deep: #5a93d1;
+  --color-accent-glow: rgba(127, 176, 234, 0.25);
+
+  /* ── 玻璃面板 ── */
+  --color-panel: rgba(255, 255, 255, 0.58);
+  --color-shadow: rgba(127, 176, 234, 0.12);
+
+  /* ── 渐变分隔线 ── */
+  --color-divider: rgba(127, 176, 234, 0.18);
 }
 
 @theme inline {
@@ -35,25 +44,187 @@ html {
 }
 
 body {
-  background:
-    radial-gradient(circle at 15% 10%, rgba(127, 176, 234, 0.2), transparent 35%),
-    radial-gradient(circle at 85% 0%, rgba(255, 255, 255, 0.9), transparent 42%),
-    var(--color-base);
+  background: var(--color-base);
   color: var(--color-ink);
   font-family: var(--font-sans);
   text-rendering: optimizeLegibility;
 }
 
-.font-display {
-  font-family: var(--font-display);
+/* ── 背景光晕 Blob（已移除，保留结构以防回退）── */
+.bg-blobs {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  display: none;
 }
 
-.glass-panel {
-  background: var(--color-panel);
-  border: 1px solid var(--color-border);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 10px 32px var(--color-shadow);
+.bg-blobs .blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  will-change: transform;
+}
+
+.bg-blobs .blob-1 {
+  top: 5%;
+  left: 8%;
+  width: 450px;
+  height: 450px;
+  background: rgba(127, 176, 234, 0.18);
+}
+
+.bg-blobs .blob-2 {
+  bottom: 10%;
+  right: 5%;
+  width: 550px;
+  height: 550px;
+  background: rgba(127, 176, 234, 0.1);
+}
+
+.bg-blobs .blob-3 {
+  top: 40%;
+  left: 35%;
+  width: 300px;
+  height: 300px;
+  background: rgba(127, 176, 234, 0.06);
+}
+
+/* Dashboard 单 blob */
+.bg-blobs--subtle .blob-1 {
+  top: 10%;
+  right: 15%;
+  width: 500px;
+  height: 500px;
+  background: rgba(127, 176, 234, 0.08);
+}
+.bg-blobs--subtle .blob-2,
+.bg-blobs--subtle .blob-3 {
+  display: none;
+}
+
+/* ── 三级液态玻璃 ── */
+
+/* 浅玻璃 */
+.glass-shallow {
+  position: relative;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(127, 176, 234, 0.2);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+.glass-shallow::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(127, 176, 234, 0.25),
+    transparent
+  );
+  pointer-events: none;
+}
+
+/* 标准玻璃 */
+.glass-standard {
+  position: relative;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(127, 176, 234, 0.22);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+.glass-standard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 5%;
+  right: 5%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+  pointer-events: none;
+}
+.glass-standard::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 6%;
+  right: 6%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(127, 176, 234, 0.35),
+    transparent
+  );
+  pointer-events: none;
+}
+
+/* 深玻璃 */
+.glass-deep {
+  position: relative;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(127, 176, 234, 0.28);
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.08),
+    0 2px 4px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+.glass-deep::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 4%;
+  right: 4%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.9),
+    transparent
+  );
+  pointer-events: none;
+}
+.glass-deep::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 5%;
+  right: 5%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(127, 176, 234, 0.4),
+    transparent
+  );
+  pointer-events: none;
+}
+
+/* ── 选中态蓝色外晕 ── */
+.glass-selected {
+  box-shadow:
+    0 0 12px rgba(127, 176, 234, 0.2),
+    0 4px 16px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+  border-color: rgba(127, 176, 234, 0.45) !important;
+}
+
+/* ── 辅助类 ── */
+
+.font-display {
+  font-family: var(--font-display);
 }
 
 .section-label {
@@ -61,4 +232,85 @@ body {
   font-size: 0.72rem;
   letter-spacing: 0.28em;
   text-transform: uppercase;
+}
+
+/* 蓝调渐变分隔线 */
+.divider-blue {
+  border: none;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(127, 176, 234, 0.2),
+    transparent
+  );
+}
+
+/* Focus visible — 蓝调聚焦环 */
+*:focus-visible {
+  outline: 2px solid var(--color-brand-strong);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* 旧 glass-panel 保留兼容 */
+.glass-panel {
+  position: relative;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(127, 176, 234, 0.22);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow:
+    0 12px 40px rgba(127, 176, 234, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+/* 按钮点击态 */
+button:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+/* ── reduced-motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── 移动端优化 ── */
+@media (max-width: 640px) {
+  /* 防 iOS 输入框自动缩放 */
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+
+  /* 触控目标最小高度 */
+  button,
+  a,
+  [role="button"] {
+    min-height: 44px;
+  }
+
+  /* 吸底栏出现时底部留白 */
+  .content-with-action-bar {
+    padding-bottom: 80px;
+  }
+
+  /* 移动端玻璃面板 padding 收窄 */
+  .glass-standard,
+  .glass-shallow,
+  .glass-deep {
+    border-radius: 16px;
+  }
+
+  /* 移动端 blob 缩小 */
+  .bg-blobs .blob {
+    transform: scale(0.6);
+  }
 }
