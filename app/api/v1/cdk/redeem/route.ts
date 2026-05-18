@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Prisma } from "@prisma/client";
 import { withApiHandler } from "@/lib/api/handler";
 import { AppError } from "@/lib/api/errors";
 import { assertCsrf } from "@/lib/security/csrf";
@@ -39,7 +40,7 @@ export const POST = withApiHandler(async (req: NextRequest) => {
 
   const codeHash = hashCdkCode(parsed.data.code);
 
-  const result = await prisma.$transaction(async (tx) => {
+  const result = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
     const cdk = await tx.cdkCode.findUnique({ where: { codeHash } });
 
     if (!cdk || cdk.status !== "unused") {
