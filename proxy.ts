@@ -11,7 +11,7 @@ const PUBLIC_PATHS = new Set([
 
 const PUBLIC_PREFIXES = ["/api/v1/personas", "/api/v1/scenes"];
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
 
   if (PUBLIC_PATHS.has(pathname)) {
