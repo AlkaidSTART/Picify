@@ -14,7 +14,9 @@ export async function callGPT55Reasoning(
   const apiKey = process.env.NEW_API_KEY;
 
   if (!baseUrl || !apiKey) {
-    throw new Error("AI 推理服务未配置，请检查 NEW_API_BASE_URL 和 NEW_API_KEY");
+    throw new Error(
+      "AI 推理服务未配置，请检查 NEW_API_BASE_URL 和 NEW_API_KEY",
+    );
   }
 
   const response = await fetch(`${baseUrl}/chat/completions`, {

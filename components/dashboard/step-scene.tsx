@@ -26,14 +26,14 @@ export function StepScene({
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <LoaderCircle className="h-8 w-8 animate-spin text-[var(--color-brand-strong)]" />
+        <LoaderCircle className="h-8 w-8 animate-spin text-[var(--launch-duck)]" />
       </div>
     );
   }
 
   if (scenes.length === 0) {
     return (
-      <div className="py-12 text-center text-sm text-[var(--color-muted)]">
+      <div className="py-12 text-center text-sm text-[var(--launch-muted)]">
         请先选择人群以加载场景列表
       </div>
     );
@@ -47,10 +47,10 @@ export function StepScene({
         return (
           <button
             key={scene.id}
-            className={`glass-shallow group rounded-2xl p-5 text-left transition-all ${
+            className={`launch-card group rounded-[1.5rem] p-5 text-left transition-all ${
               isSelected
-                ? "glass-selected scale-[1.02] border-[rgba(127,176,234,0.45)]"
-                : "hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)]"
+                ? "launch-card--duck scale-[1.02]"
+                : "hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgba(29,29,24,0.08)]"
             }`}
             type="button"
             onClick={() => onSelect(scene.id)}
@@ -58,14 +58,16 @@ export function StepScene({
             <div
               className={`mb-3 flex h-10 w-10 items-center justify-center rounded-xl transition-all ${
                 isSelected
-                  ? "bg-[var(--color-brand-strong)] text-white"
-                  : "bg-[var(--color-brand)] text-[var(--color-brand-strong)]"
+                  ? "bg-[var(--launch-duck)] text-[var(--launch-ink)]"
+                  : "border border-[var(--launch-border)] bg-white text-[var(--launch-ink)]"
               }`}
             >
               <Layers className="h-5 w-5" />
             </div>
-            <h3 className="text-sm font-semibold">{scene.name}</h3>
-            <p className="mt-1 text-xs text-[var(--color-muted)]">
+            <h3 className="text-sm font-semibold text-[var(--launch-ink)]">
+              {scene.name}
+            </h3>
+            <p className="mt-1 text-xs text-[var(--launch-muted)]">
               {scene.description}
             </p>
           </button>

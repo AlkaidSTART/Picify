@@ -50,6 +50,71 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+.launch-theme,
+.home-theme {
+  --launch-bg: #ffffff;
+  --launch-ink: #1d1d18;
+  --launch-muted: rgba(29, 29, 24, 0.68);
+  --launch-border: rgba(29, 29, 24, 0.12);
+  --launch-border-strong: rgba(29, 29, 24, 0.2);
+  --launch-paper: #f8f5ee;
+  --launch-duck: #d0aa24;
+  --launch-meadow: #6f9160;
+  --launch-shadow: rgba(29, 29, 24, 0.08);
+}
+
+.home-theme {
+  --home-bg: var(--launch-bg);
+  --home-ink: var(--launch-ink);
+  --home-muted: var(--launch-muted);
+  --home-border: var(--launch-border);
+  --home-paper: var(--launch-paper);
+  --home-duck: var(--launch-duck);
+  --home-meadow: var(--launch-meadow);
+}
+
+.home-mark {
+  font-family:
+    "Snell Roundhand", "Apple Chancery", "Segoe Script", "Bradley Hand", cursive;
+  font-weight: 500;
+  letter-spacing: -0.08em;
+}
+
+.home-orb {
+  position: absolute;
+  filter: blur(60px);
+  border-radius: 9999px;
+  opacity: 0.72;
+}
+
+.home-orb--duck {
+  top: 8%;
+  left: -8%;
+  width: 22rem;
+  height: 22rem;
+  background: rgba(208, 170, 36, 0.12);
+}
+
+.home-orb--meadow {
+  right: -8%;
+  top: 26%;
+  width: 24rem;
+  height: 24rem;
+  background: rgba(111, 145, 96, 0.12);
+}
+
+.home-grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.18;
+  background-image:
+    linear-gradient(rgba(30, 30, 26, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30, 30, 26, 0.05) 1px, transparent 1px);
+  background-position: center;
+  background-size: 2rem 2rem;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.75), transparent 92%);
+}
+
 /* ── 背景光晕 Blob（已移除，保留结构以防回退）── */
 .bg-blobs {
   position: fixed;
@@ -228,27 +293,257 @@ body {
 }
 
 .section-label {
-  color: var(--color-muted);
+  color: var(--launch-muted);
   font-size: 0.72rem;
   letter-spacing: 0.28em;
   text-transform: uppercase;
 }
 
-/* 蓝调渐变分隔线 */
-.divider-blue {
-  border: none;
-  height: 1px;
+.home-mini-card,
+.home-collage-card,
+.home-persona-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--home-border);
+  background: #ffffff;
+  box-shadow:
+    0 18px 48px var(--launch-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.88);
+}
+
+.home-mini-card::before,
+.home-collage-card::before,
+.home-persona-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
   background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(127, 176, 234, 0.2),
-    transparent
+    145deg,
+    rgba(255, 255, 255, 0.7),
+    transparent 48%
   );
 }
 
-/* Focus visible — 蓝调聚焦环 */
+.home-mini-card {
+  min-height: 13rem;
+  padding: 1.25rem;
+  border-radius: 1.8rem;
+}
+
+.home-mini-card::after,
+.home-collage-card::after,
+.home-persona-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0.42rem;
+  pointer-events: none;
+}
+
+.home-mini-card--duck {
+  border-color: rgba(208, 170, 36, 0.34);
+}
+
+.home-mini-card--duck::after {
+  background: var(--home-duck);
+}
+
+.home-mini-card--meadow {
+  border-color: rgba(111, 145, 96, 0.34);
+}
+
+.home-mini-card--meadow::after {
+  background: var(--home-meadow);
+}
+
+.home-mini-card__badge,
+.home-collage-card__badge {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--home-ink);
+}
+
+.home-mini-card__badge {
+  background: var(--home-paper);
+  border: 1px solid var(--home-border);
+}
+
+.home-collage-card {
+  display: flex;
+  min-height: 20rem;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 2rem;
+  padding: 1.5rem;
+}
+
+.home-collage-card--duck {
+  border-color: rgba(208, 170, 36, 0.34);
+}
+
+.home-collage-card--duck::after {
+  background: var(--home-duck);
+}
+
+.home-collage-card--meadow {
+  border-color: rgba(111, 145, 96, 0.34);
+}
+
+.home-collage-card--meadow::after {
+  background: var(--home-meadow);
+}
+
+.home-collage-card--paper {
+  border-color: var(--home-border);
+}
+
+.home-collage-card--paper::after {
+  background: var(--home-ink);
+}
+
+.home-collage-card__badge {
+  background: var(--home-paper);
+  border: 1px solid var(--home-border);
+}
+
+.home-collage-card__frame {
+  border-radius: 1.5rem;
+  border: 1px solid var(--home-border);
+  background: #ffffff;
+  padding: 0.8rem;
+}
+
+.home-collage-card__image {
+  height: 11rem;
+  border-radius: 1rem;
+  background: var(--launch-paper);
+  border: 1px solid var(--home-border);
+}
+
+.home-collage-card__image--duck {
+  background: var(--home-duck);
+}
+
+.home-collage-card__image--meadow {
+  background: var(--home-meadow);
+}
+
+.home-collage-card__image--paper {
+  background: var(--home-ink);
+}
+
+.home-persona-card {
+  min-height: 21rem;
+  border-radius: 2rem;
+  padding: 1.5rem;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.home-persona-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(30, 30, 26, 0.18);
+  box-shadow:
+    0 24px 64px rgba(30, 30, 26, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.home-persona-card--duck {
+  border-color: rgba(208, 170, 36, 0.34);
+}
+
+.home-persona-card--duck::after {
+  background: var(--home-duck);
+}
+
+.home-persona-card--meadow {
+  border-color: rgba(111, 145, 96, 0.34);
+}
+
+.home-persona-card--meadow::after {
+  background: var(--home-meadow);
+}
+
+.home-persona-card__icon {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  height: 3rem;
+  width: 3rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  border: 1px solid var(--home-border);
+  background: #ffffff;
+  color: var(--home-ink);
+}
+
+.launch-card {
+  border: 1px solid var(--launch-border);
+  background: #ffffff;
+  box-shadow:
+    0 18px 48px var(--launch-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.88);
+}
+
+.launch-card--duck {
+  border-color: rgba(208, 170, 36, 0.34);
+}
+
+.launch-card--meadow {
+  border-color: rgba(111, 145, 96, 0.34);
+}
+
+.launch-btn-primary {
+  background: var(--launch-ink);
+  color: #ffffff;
+}
+
+.launch-btn-primary:hover {
+  background: #000000;
+}
+
+.launch-btn-secondary {
+  border: 1px solid var(--launch-border);
+  background: #ffffff;
+  color: var(--launch-ink);
+}
+
+.launch-btn-secondary:hover {
+  border-color: var(--launch-ink);
+}
+
+.launch-input {
+  border: 1px solid var(--launch-border);
+  background: #ffffff;
+  color: var(--launch-ink);
+}
+
+.launch-input:focus {
+  border-color: var(--launch-ink);
+  outline: none;
+}
+
+.launch-divider {
+  border: none;
+  height: 1px;
+  background: rgba(29, 29, 24, 0.1);
+}
+
 *:focus-visible {
-  outline: 2px solid var(--color-brand-strong);
+  outline: 2px solid var(--launch-ink);
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -312,5 +607,41 @@ button:active:not(:disabled) {
   /* 移动端 blob 缩小 */
   .bg-blobs .blob {
     transform: scale(0.6);
+  }
+
+  .home-orb--duck {
+    width: 15rem;
+    height: 15rem;
+    left: -18%;
+  }
+
+  .home-orb--meadow {
+    width: 15rem;
+    height: 15rem;
+    right: -18%;
+    top: 18%;
+  }
+
+  .home-grid {
+    background-size: 1.2rem 1.2rem;
+  }
+
+  .home-mini-card,
+  .home-collage-card,
+  .home-persona-card {
+    border-radius: 1.5rem;
+  }
+
+  .home-mini-card {
+    min-height: 11rem;
+  }
+
+  .home-collage-card {
+    min-height: 18rem;
+    padding: 1.2rem;
+  }
+
+  .home-collage-card__image {
+    height: 9rem;
   }
 }

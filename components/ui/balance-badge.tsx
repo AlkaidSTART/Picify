@@ -34,7 +34,7 @@ export function BalanceBadge({ credits }: BalanceBadgeProps) {
   if (credits === null) return null;
 
   return (
-    <span className="inline-flex items-center gap-1 rounded-full bg-[var(--color-brand-strong)] px-3 py-1 text-xs font-semibold text-white">
+    <span className="inline-flex items-center gap-1 rounded-full border border-[var(--launch-border)] bg-[var(--launch-meadow)] px-3 py-1 text-xs font-semibold text-white">
       <span ref={numRef}>{credits}</span> 次
     </span>
   );

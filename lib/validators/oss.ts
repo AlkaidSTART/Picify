@@ -7,5 +7,9 @@ export const OssPresignRequestSchema = z.object({
     .max(128)
     .regex(/^[\w.-]+\.(jpg|jpeg|png)$/i),
   contentType: z.enum(["image/jpeg", "image/png"]),
-  size: z.number().int().positive().max(10 * 1024 * 1024),
+  size: z
+    .number()
+    .int()
+    .positive()
+    .max(10 * 1024 * 1024),
 });

@@ -54,16 +54,15 @@ export function MobileActionBar({
   return (
     <div
       ref={barRef}
-      className="glass-deep fixed bottom-0 left-0 right-0 z-40 rounded-none border-b-0 border-x-0 px-4 py-3 sm:hidden"
+      className="fixed right-0 bottom-0 left-0 z-40 border-t border-[var(--launch-border)] bg-white/96 px-4 py-3 backdrop-blur-xl sm:hidden"
     >
       <div className="flex items-center gap-3">
-        {/* 模式切换 */}
-        <div className="flex rounded-xl border border-[var(--color-border)] bg-white/80 p-0.5">
+        <div className="flex rounded-xl border border-[var(--launch-border)] bg-white p-0.5">
           <button
             className={`flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium transition-all ${
               mode === "basic"
-                ? "bg-[var(--color-brand-strong)] text-white"
-                : "text-[var(--color-muted)]"
+                ? "bg-[var(--launch-duck)] text-[var(--launch-ink)]"
+                : "text-[var(--launch-muted)]"
             }`}
             type="button"
             onClick={() => onModeChange("basic")}
@@ -74,8 +73,8 @@ export function MobileActionBar({
           <button
             className={`flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium transition-all ${
               mode === "advanced"
-                ? "bg-[var(--color-brand-strong)] text-white"
-                : "text-[var(--color-muted)]"
+                ? "bg-[var(--launch-duck)] text-[var(--launch-ink)]"
+                : "text-[var(--launch-muted)]"
             }`}
             type="button"
             onClick={() => onModeChange("advanced")}
@@ -85,9 +84,8 @@ export function MobileActionBar({
           </button>
         </div>
 
-        {/* 生成按钮 */}
         <button
-          className="flex h-11 flex-1 items-center justify-center gap-2 rounded-xl bg-[var(--color-brand-strong)] px-4 text-sm font-semibold text-white transition-all active:scale-95 disabled:bg-[var(--color-border)]"
+          className="launch-btn-primary flex h-11 flex-1 items-center justify-center gap-2 rounded-xl px-4 text-sm font-semibold transition-all active:scale-95 disabled:bg-[var(--launch-border)]"
           disabled={!canGenerate || submitting}
           type="button"
           onClick={onGenerate}
@@ -102,7 +100,9 @@ export function MobileActionBar({
 
         {/* 余额 */}
         {remainingCredits !== null && (
-          <span className="text-xs text-[var(--color-muted)]">{remainingCredits} 次</span>
+          <span className="text-xs text-[var(--launch-muted)]">
+            {remainingCredits} 次
+          </span>
         )}
       </div>
     </div>

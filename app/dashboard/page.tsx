@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation";
 import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { AlertCircle, ArrowLeft } from "lucide-react";
 import { useGenerationPolling } from "@/hooks/use-generation-polling";
-import { useBlobs } from "@/hooks/use-gsap";
 import { StepProgress } from "@/components/ui/step-progress";
 import { BalanceBadge } from "@/components/ui/balance-badge";
 import { MobileActionBar } from "@/components/layout/mobile-action-bar";
@@ -41,12 +40,6 @@ type Persona = {
 };
 
 const STEP_TITLES = ["选择人群", "选择场景", "填写参数", "查看结果"];
-const STEP_DESCS = [
-  "选择你的角色与业务场景",
-  "选择场景以确定出图类型",
-  "填写参数并选择生成模式",
-  "预览、下载或重新生成",
-];
 
 function DashboardContent() {
   const searchParams = useSearchParams();
@@ -62,7 +55,9 @@ function DashboardContent() {
   );
 
   const [personas, setPersonas] = useState<Persona[]>([]);
-  const [selectedPersona, setSelectedPersona] = useState<string>(urlPersona ?? "");
+  const [selectedPersona, setSelectedPersona] = useState<string>(
+    urlPersona ?? "",
+  );
   const [scenes, setScenes] = useState<Scene[]>([]);
   const [selectedSceneId, setSelectedSceneId] = useState<string>("");
   const [formValues, setFormValues] = useState<Record<string, string>>({});
@@ -81,8 +76,6 @@ function DashboardContent() {
     result: genResult,
     reset: resetGeneration,
   } = useGenerationPolling(generationTaskId);
-
-  const blobsRef = useBlobs();
 
   // 计算当前步骤
   const currentStep = useMemo(() => {
@@ -269,16 +262,8 @@ function DashboardContent() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* 背景光晕 */}
-      <div ref={blobsRef} className="bg-blobs bg-blobs--subtle">
-        <div className="blob blob-1" />
-        <div className="blob blob-2" />
-        <div className="blob blob-3" />
-      </div>
-
-      {/* Header */}
-      <header className="glass-deep sticky top-0 z-30 rounded-none border-x-0 border-t-0">
+    <div className="min-h-screen bg-[var(--launch-bg)] text-[var(--launch-ink)]">
+      <header className="sticky top-0 z-30 border-b border-[var(--launch-border)] bg-white/96 backdrop-blur-xl">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
           <StepProgress
             currentStep={currentStep}
@@ -287,7 +272,7 @@ function DashboardContent() {
           <div className="flex items-center gap-3">
             <BalanceBadge credits={remainingCredits} />
             <Link
-              className="inline-flex h-9 items-center gap-2 rounded-xl border border-[var(--color-border)] bg-white/80 px-3 text-sm font-medium text-[var(--color-ink)] transition-all hover:bg-white"
+              className="launch-btn-secondary inline-flex h-9 items-center gap-2 rounded-xl px-3 text-sm font-medium transition-all"
               href="/"
             >
               <ArrowLeft className="h-4 w-4" />
@@ -297,29 +282,22 @@ function DashboardContent() {
         </div>
       </header>
 
-      {/* 内容区 */}
       <main
         className={`relative z-10 mx-auto max-w-6xl px-4 py-8 sm:px-6 ${currentStep === 2 ? "content-with-action-bar" : ""}`}
       >
-        {/* 错误提示 */}
         {errorMessage && (
-          <div className="mb-6 flex items-start gap-2 rounded-2xl border border-[rgba(127,176,234,0.3)] bg-[var(--color-brand)] p-3 text-sm text-[var(--color-brand-deep)]">
+          <div className="mb-6 flex items-start gap-2 rounded-2xl border border-[var(--launch-border-strong)] bg-white p-3 text-sm text-[var(--launch-ink)]">
             <AlertCircle className="mt-0.5 h-4 w-4" />
             <p>{errorMessage}</p>
           </div>
         )}
 
-        {/* 步骤标题 */}
         <div className="mb-8 text-center">
-          <h1 className="font-display text-3xl font-semibold tracking-tight sm:text-4xl">
+          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
             {STEP_TITLES[currentStep]}
           </h1>
-          <p className="mt-2 text-sm text-[var(--color-muted)]">
-            {STEP_DESCS[currentStep]}
-          </p>
         </div>
 
-        {/* 步骤内容 */}
         {currentStep === 0 && (
           <StepPersona
             loading={loadingPersonas}
@@ -374,7 +352,6 @@ function DashboardContent() {
         )}
       </main>
 
-      {/* 移动端吸底操作栏（步骤 2 显示，步骤 3 已有生成按钮） */}
       {currentStep === 2 && (
         <MobileActionBar
           canGenerate={missingCount === 0 && !submitting}
@@ -387,7 +364,6 @@ function DashboardContent() {
         />
       )}
 
-      {/* 生成进度条动画样式 */}
       <style jsx>{`
         .generating-progress {
           animation: progress-flow 2s ease-in-out infinite;
@@ -413,7 +389,7 @@ export default function Dashboard() {
     <Suspense
       fallback={
         <div className="flex min-h-screen items-center justify-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-[var(--color-brand-strong)] border-t-transparent" />
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-[var(--launch-duck)] border-t-transparent" />
         </div>
       }
     >

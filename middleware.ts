@@ -9,10 +9,7 @@ const PUBLIC_PATHS = new Set([
   "/api/auth/csrf",
 ]);
 
-const PUBLIC_PREFIXES = [
-  "/api/v1/personas",
-  "/api/v1/scenes",
-];
+const PUBLIC_PREFIXES = ["/api/v1/personas", "/api/v1/scenes"];
 
 export async function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;

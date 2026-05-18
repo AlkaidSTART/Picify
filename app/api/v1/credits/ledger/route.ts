@@ -10,7 +10,10 @@ export const GET = withApiHandler(async (req: NextRequest) => {
   }
 
   const page = Math.max(1, Number(req.nextUrl.searchParams.get("page") ?? "1"));
-  const pageSize = Math.min(50, Math.max(1, Number(req.nextUrl.searchParams.get("pageSize") ?? "20")));
+  const pageSize = Math.min(
+    50,
+    Math.max(1, Number(req.nextUrl.searchParams.get("pageSize") ?? "20")),
+  );
 
   const [items, total] = await Promise.all([
     prisma.creditLedger.findMany({

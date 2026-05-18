@@ -3,5 +3,9 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="min-h-screen bg-white">{children}</div>
+  return (
+    <div className="launch-theme min-h-screen bg-[var(--launch-bg)]">
+      {children}
+    </div>
+  );
 }

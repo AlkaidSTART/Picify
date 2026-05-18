@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  Check,
-  LoaderCircle,
-  Palette,
-  Zap,
-  Brain,
-  Sparkles,
-} from "lucide-react";
+import { Check, LoaderCircle, Palette, Zap, Brain } from "lucide-react";
 
 type ParamOption = { label: string; value: string };
 type SceneParam = {
@@ -48,15 +41,9 @@ export function StepParams({
 
   return (
     <div className="mx-auto max-w-2xl">
-      <div className="glass-standard rounded-2xl p-6 sm:p-8">
-        <div className="mb-6 flex items-center gap-2">
-          <Sparkles className="h-5 w-5 text-[var(--color-brand-strong)]" />
-          <h3 className="text-lg font-semibold">填写参数</h3>
-        </div>
-
-        {/* 参数表单 */}
+      <div className="launch-card rounded-[2rem] p-6 sm:p-8">
         {params.length === 0 ? (
-          <p className="rounded-xl border border-[var(--color-border)] bg-white/80 p-4 text-sm text-[var(--color-muted)]">
+          <p className="rounded-xl border border-[var(--launch-border)] bg-white p-4 text-sm text-[var(--launch-muted)]">
             请先选择人群与场景
           </p>
         ) : (
@@ -67,17 +54,14 @@ export function StepParams({
               if (param.type === "select") {
                 return (
                   <div key={param.key}>
-                    <label className="mb-2 block text-sm font-medium">
+                    <label className="mb-2 block text-sm font-medium text-[var(--launch-ink)]">
                       {param.label}
                       {param.required && (
-                        <span className="text-[var(--color-brand-strong)]">
-                          {" "}
-                          *
-                        </span>
+                        <span className="text-[var(--launch-duck)]"> *</span>
                       )}
                     </label>
                     <select
-                      className="h-11 w-full rounded-xl border border-[var(--color-border)] bg-white/90 px-3 text-sm transition-all outline-none focus:border-[var(--color-brand-strong)] focus:bg-[var(--color-brand)]"
+                      className="launch-input h-11 w-full rounded-xl px-3 text-sm transition-all"
                       value={value}
                       onChange={(e) => onFieldChange(param.key, e.target.value)}
                     >
@@ -95,14 +79,11 @@ export function StepParams({
               if (param.type === "color") {
                 return (
                   <div key={param.key} className="sm:col-span-2">
-                    <div className="mb-2 flex items-center gap-2 text-sm font-medium">
-                      <Palette className="h-4 w-4 text-[var(--color-brand-strong)]" />
+                    <div className="mb-2 flex items-center gap-2 text-sm font-medium text-[var(--launch-ink)]">
+                      <Palette className="h-4 w-4 text-[var(--launch-ink)]" />
                       {param.label}
                       {param.required && (
-                        <span className="text-[var(--color-brand-strong)]">
-                          {" "}
-                          *
-                        </span>
+                        <span className="text-[var(--launch-duck)]"> *</span>
                       )}
                     </div>
                     <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
@@ -111,8 +92,8 @@ export function StepParams({
                           key={opt.value}
                           className={`h-10 rounded-xl border px-2 text-xs transition-all ${
                             value === opt.value
-                              ? "border-[var(--color-brand-strong)] bg-[var(--color-brand)] text-[var(--color-brand-strong)]"
-                              : "border-[var(--color-border)] bg-white/80 hover:border-[var(--color-brand-strong)]"
+                              ? "border-[var(--launch-duck)] bg-[var(--launch-duck)] text-[var(--launch-ink)]"
+                              : "border-[var(--launch-border)] bg-white hover:border-[var(--launch-ink)]"
                           }`}
                           type="button"
                           onClick={() => onFieldChange(param.key, opt.value)}
@@ -127,17 +108,14 @@ export function StepParams({
 
               return (
                 <div key={param.key}>
-                  <label className="mb-2 block text-sm font-medium">
+                  <label className="mb-2 block text-sm font-medium text-[var(--launch-ink)]">
                     {param.label}
                     {param.required && (
-                      <span className="text-[var(--color-brand-strong)]">
-                        {" "}
-                        *
-                      </span>
+                      <span className="text-[var(--launch-duck)]"> *</span>
                     )}
                   </label>
                   <input
-                    className="h-11 w-full rounded-xl border border-[var(--color-border)] bg-white/90 px-3 text-sm transition-all outline-none focus:border-[var(--color-brand-strong)] focus:bg-[var(--color-brand)]"
+                    className="launch-input h-11 w-full rounded-xl px-3 text-sm transition-all"
                     placeholder={param.placeholder ?? "请输入"}
                     type="text"
                     value={value}
@@ -149,50 +127,49 @@ export function StepParams({
           </form>
         )}
 
-        {/* 分隔线 */}
-        {params.length > 0 && <hr className="divider-blue my-6" />}
+        {params.length > 0 && <hr className="launch-divider my-6" />}
 
-        {/* 模式切换 */}
         {params.length > 0 && (
           <div>
-            <p className="mb-3 text-sm font-semibold">模式选择</p>
+            <p className="mb-3 text-sm font-semibold text-[var(--launch-ink)]">
+              模式选择
+            </p>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <button
                 className={`flex items-start gap-3 rounded-2xl border p-4 text-left transition-all ${
                   mode === "basic"
-                    ? "border-[var(--color-brand-strong)] bg-[var(--color-brand)]/40"
-                    : "border-[var(--color-border)] bg-white/60 hover:border-[var(--color-brand-strong)]"
+                    ? "border-[var(--launch-duck)] bg-white"
+                    : "border-[var(--launch-border)] bg-white hover:border-[var(--launch-ink)]"
                 }`}
                 type="button"
                 onClick={() => onModeChange("basic")}
               >
-                <Zap className="mt-0.5 h-5 w-5 text-[var(--color-brand-strong)]" />
+                <Zap className="mt-0.5 h-5 w-5 text-[var(--launch-ink)]" />
                 <div>
-                  <p className="text-sm font-semibold">基础模式</p>
-                  <p className="mt-1 text-xs text-[var(--color-muted)]">
-                    消耗 1 次 · 快速出图 · 标准质量
+                  <p className="text-sm font-semibold text-[var(--launch-ink)]">
+                    基础模式
+                  </p>
+                  <p className="mt-1 text-xs text-[var(--launch-muted)]">
+                    消耗 1 次
                   </p>
                 </div>
               </button>
               <button
-                className={`relative flex items-start gap-3 rounded-2xl border p-4 text-left transition-all ${
+                className={`flex items-start gap-3 rounded-2xl border p-4 text-left transition-all ${
                   mode === "advanced"
-                    ? "border-[var(--color-brand-strong)] bg-[var(--color-brand)]/40 shadow-[0_4px_12px_rgba(0,0,0,0.08)]"
-                    : "border-[var(--color-border)] bg-white/60 hover:border-[var(--color-brand-strong)]"
+                    ? "border-[var(--launch-duck)] bg-white shadow-[0_8px_20px_rgba(29,29,24,0.06)]"
+                    : "border-[var(--launch-border)] bg-white hover:border-[var(--launch-ink)]"
                 }`}
                 type="button"
                 onClick={() => onModeChange("advanced")}
               >
-                {mode !== "advanced" && (
-                  <span className="absolute -top-2 right-3 rounded-full bg-[var(--color-brand-strong)] px-2 py-0.5 text-[10px] font-semibold text-white">
-                    推荐
-                  </span>
-                )}
-                <Brain className="mt-0.5 h-5 w-5 text-[var(--color-brand-strong)]" />
+                <Brain className="mt-0.5 h-5 w-5 text-[var(--launch-ink)]" />
                 <div>
-                  <p className="text-sm font-semibold">高级模式</p>
-                  <p className="mt-1 text-xs text-[var(--color-muted)]">
-                    消耗 2 次 · AI 深度推理 · 更高质量
+                  <p className="text-sm font-semibold text-[var(--launch-ink)]">
+                    高级模式
+                  </p>
+                  <p className="mt-1 text-xs text-[var(--launch-muted)]">
+                    消耗 2 次
                   </p>
                 </div>
               </button>
@@ -200,11 +177,10 @@ export function StepParams({
           </div>
         )}
 
-        {/* 生成按钮 */}
         {params.length > 0 && (
           <div className="mt-6">
             <button
-              className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[var(--color-brand-strong)] px-5 text-sm font-semibold text-white transition-all hover:bg-[var(--color-brand-deep)] hover:shadow-[0_0_0_6px_rgba(127,176,234,0.15)] disabled:cursor-not-allowed disabled:bg-[var(--color-border)] disabled:shadow-none"
+              className="launch-btn-primary inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl px-5 text-sm font-semibold transition-all disabled:cursor-not-allowed disabled:bg-[var(--launch-border)] disabled:text-white"
               disabled={!canGenerate}
               type="button"
               onClick={onGenerate}
@@ -214,23 +190,23 @@ export function StepParams({
               ) : (
                 <Check className="h-4 w-4" />
               )}
-              立即生成（{costCredits} 次）
+              生成图片（{costCredits} 次）
             </button>
 
             {missingCount > 0 && (
-              <p className="mt-2 text-center text-xs text-[var(--color-brand-strong)]">
+              <p className="mt-2 text-center text-xs text-[var(--launch-duck)]">
                 仍有 {missingCount} 个必填项未完成
               </p>
             )}
 
             {remainingCredits !== null && remainingCredits < costCredits && (
-              <p className="mt-2 text-center text-xs text-[var(--color-brand-strong)]">
+              <p className="mt-2 text-center text-xs text-[var(--launch-duck)]">
                 余额不足，请先充值
               </p>
             )}
 
             {remainingCredits !== null && (
-              <p className="mt-2 text-center text-xs text-[var(--color-muted)]">
+              <p className="mt-2 text-center text-xs text-[var(--launch-muted)]">
                 剩余 {remainingCredits} 次
               </p>
             )}

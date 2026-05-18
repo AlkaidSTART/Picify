@@ -1,32 +1,30 @@
 "use client";
 
-import { useBlobs } from "@/hooks/use-gsap";
 import { SiteHeader } from "@/components/layout/site-header";
+import { DesignCollageStrip } from "@/components/landing/design-collage-strip";
 import { HeroSection } from "@/components/landing/hero-section";
 import { PersonaSection } from "@/components/landing/persona-section";
 
 export default function Home() {
-  const blobsRef = useBlobs();
-
   return (
-    <div className="min-h-screen bg-white text-[var(--color-ink)] font-sans">
-      {/* 背景光晕 Blob */}
-      <div ref={blobsRef} className="bg-blobs">
-        <div className="blob blob-1" />
-        <div className="blob blob-2" />
-        <div className="blob blob-3" />
+    <div className="home-theme min-h-screen bg-[var(--home-bg)] font-sans text-[var(--home-ink)]">
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
+        <div className="home-orb home-orb--duck" />
+        <div className="home-orb home-orb--meadow" />
+        <div className="home-grid" />
       </div>
 
-      <SiteHeader />
+      <SiteHeader variant="home" />
 
       <main className="relative z-10">
         <HeroSection />
+        <DesignCollageStrip />
         <PersonaSection />
 
-        {/* 一句话收尾 */}
-        <div className="pb-12 text-center text-sm text-[var(--color-muted)] sm:pb-16">
-          基础模式 1 次 / 张 · 高级模式 2 次 / 张 ·{" "}
-          <span className="font-medium text-[var(--color-brand-strong)]">游客可免费体验 1 次</span>
+        <div className="px-4 pb-12 text-center text-sm text-[var(--home-muted)] sm:px-6 sm:pb-16">
+          <span className="font-medium text-[var(--home-ink)]">
+            游客仍可免费体验 1 次
+          </span>
         </div>
       </main>
     </div>

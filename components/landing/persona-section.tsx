@@ -1,73 +1,80 @@
 "use client";
 
 import Link from "next/link";
-import {
-  ArrowRight,
-  Briefcase,
-  MessageSquare,
-  PenTool,
-  Store,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
-const personas = [
-  {
-    title: "电商商家",
-    desc: "商品主图、详情配图、营销海报",
-    icon: Store,
-    href: "/dashboard?persona=ecommerce",
-  },
-  {
-    title: "自媒体人",
-    desc: "平台封面、吸睛配图、个性头像",
-    icon: PenTool,
-    href: "/dashboard?persona=creator",
-  },
-  {
-    title: "设计师",
-    desc: "灵感草图、品牌概念、提案辅助",
-    icon: Briefcase,
-    href: "/dashboard?persona=designer",
-  },
-  {
-    title: "职场白领",
-    desc: "汇报插图、课件素材、演示文档",
-    icon: MessageSquare,
-    href: "/dashboard?persona=office",
-  },
-];
+import { homePersonaEntries } from "@/components/landing/home-content";
 
 export function PersonaSection() {
   return (
     <section
-      className="mx-auto w-full max-w-6xl px-4 pt-8 pb-16 sm:px-6 sm:pb-24"
+      className="mx-auto w-full max-w-7xl px-4 pt-8 pb-16 sm:px-6 sm:pt-12 sm:pb-24"
       id="roles"
     >
-      <div className="mb-10 text-center">
-        <h2 className="text-2xl font-bold sm:text-3xl">适用角色</h2>
-        <p className="mt-3 text-sm text-[var(--color-muted)]">
-          按角色分流场景，减少无效参数输入
-        </p>
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)] lg:items-end">
+        <div className="max-w-md">
+          <h2 className="mt-5 text-3xl font-semibold tracking-[-0.05em] text-[var(--home-ink)] sm:text-4xl">
+            先认领身份，再进入你的出图路径
+          </h2>
+          <p className="mt-5 text-sm leading-relaxed text-[var(--home-muted)] sm:text-base">
+            四类人群各自进入自己的场景，不把创作台做成一块大参数面板。
+          </p>
+        </div>
+
+        <div className="rounded-[2rem] border border-[var(--home-border)] bg-white/72 px-5 py-4 shadow-[0_24px_60px_rgba(23,22,18,0.06)]">
+          <div className="flex flex-wrap items-center gap-3 text-sm text-[var(--home-muted)]">
+            <span className="rounded-full border border-[var(--home-border)] bg-[var(--home-duck)] px-3 py-1.5 text-[var(--home-ink)]">
+              游客可先体验 1 次
+            </span>
+            <span className="rounded-full border border-[var(--home-border)] bg-[var(--home-paper)] px-3 py-1.5 text-[var(--home-ink)]">
+              无需先学 Prompt
+            </span>
+            <span className="rounded-full border border-[var(--home-border)] px-3 py-1.5">
+              基础模式 1 次 / 张
+            </span>
+            <span className="rounded-full border border-[var(--home-border)] px-3 py-1.5">
+              高级模式 2 次 / 张
+            </span>
+          </div>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {personas.map((role) => {
+      <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
+        {homePersonaEntries.map((role, index) => {
           const Icon = role.icon;
+
           return (
             <Link
               key={role.title}
-              className="glass-shallow group rounded-2xl p-6 transition-all hover:-translate-y-1 hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)]"
+              className={`home-persona-card group ${index % 2 === 0 ? "home-persona-card--duck" : "home-persona-card--meadow"}`}
               href={role.href}
             >
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--color-brand)] text-[var(--color-brand-strong)] transition-transform group-hover:scale-110">
-                <Icon className="h-6 w-6" />
+              <div className="flex items-start justify-between gap-5">
+                <div className="home-persona-card__icon">
+                  <Icon className="h-5 w-5" />
+                </div>
+                <span className="text-[0.68rem] tracking-[0.28em] text-[var(--home-muted)] uppercase">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
               </div>
-              <h3 className="text-lg font-semibold">{role.title}</h3>
-              <p className="mt-2 text-xs leading-relaxed text-[var(--color-muted)]">
-                {role.desc}
-              </p>
-              <div className="mt-4 flex items-center gap-1 text-xs font-medium text-[var(--color-brand-strong)] transition-all group-hover:gap-2 sm:flex">
-                进入场景
-                <ArrowRight className="h-3.5 w-3.5" />
+
+              <div className="mt-8">
+                <h3 className="text-xl font-semibold tracking-[-0.03em] text-[var(--home-ink)]">
+                  {role.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-[var(--home-muted)]">
+                  {role.desc}
+                </p>
+              </div>
+
+              <div className="mt-8 border-t border-[var(--home-border)] pt-5">
+                <p className="text-sm leading-relaxed text-[var(--home-ink)]">
+                  {role.value}
+                </p>
+                <div className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-[var(--home-ink)] transition-all group-hover:gap-2 group-hover:text-[var(--home-meadow)]">
+                  进入对应场景
+                  <ArrowRight className="h-4 w-4" />
+                </div>
               </div>
             </Link>
           );

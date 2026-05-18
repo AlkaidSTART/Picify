@@ -10,7 +10,9 @@ import { PACKAGES, type PackageType } from "@/lib/cdk/packages";
 
 function hashCdkCode(code: string): string {
   const secret = process.env.ADMIN_CDK_SECRET ?? "fallback-cdk-secret";
-  return createHash("sha256").update(code + secret).digest("hex");
+  return createHash("sha256")
+    .update(code + secret)
+    .digest("hex");
 }
 
 export const POST = withApiHandler(async (req: NextRequest) => {
@@ -27,7 +29,12 @@ export const POST = withApiHandler(async (req: NextRequest) => {
   const parsed = RedeemCdkSchema.safeParse(body);
 
   if (!parsed.success) {
-    throw new AppError("VALIDATION_FAILED", "请求参数不合法", 400, parsed.error.flatten());
+    throw new AppError(
+      "VALIDATION_FAILED",
+      "请求参数不合法",
+      400,
+      parsed.error.flatten(),
+    );
   }
 
   const codeHash = hashCdkCode(parsed.data.code);

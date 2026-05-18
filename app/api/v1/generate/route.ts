@@ -25,7 +25,12 @@ export const POST = withApiHandler(async (req: NextRequest) => {
   const parsed = GenerateRequestSchema.safeParse(body);
 
   if (!parsed.success) {
-    throw new AppError("VALIDATION_FAILED", "请求参数不合法", 400, parsed.error.flatten());
+    throw new AppError(
+      "VALIDATION_FAILED",
+      "请求参数不合法",
+      400,
+      parsed.error.flatten(),
+    );
   }
 
   const { persona, scene, mode, params } = parsed.data;

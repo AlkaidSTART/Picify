@@ -32,7 +32,7 @@ export function StepPersona({
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[var(--color-brand-strong)] border-t-transparent" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[var(--launch-duck)] border-t-transparent" />
       </div>
     );
   }
@@ -46,10 +46,10 @@ export function StepPersona({
         return (
           <button
             key={persona.id}
-            className={`glass-standard group rounded-2xl p-6 text-left transition-all ${
+            className={`launch-card group rounded-[1.75rem] p-6 text-left transition-all ${
               isSelected
-                ? "glass-selected scale-[1.02] border-[rgba(127,176,234,0.45)]"
-                : "hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)]"
+                ? "launch-card--duck scale-[1.02]"
+                : "hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgba(29,29,24,0.08)]"
             }`}
             type="button"
             onClick={() => onSelect(persona.id)}
@@ -57,17 +57,19 @@ export function StepPersona({
             <div
               className={`mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl transition-all ${
                 isSelected
-                  ? "bg-[var(--color-brand-strong)] text-white"
-                  : "bg-[var(--color-brand)] text-[var(--color-brand-strong)] group-hover:scale-110"
+                  ? "bg-[var(--launch-duck)] text-[var(--launch-ink)]"
+                  : "border border-[var(--launch-border)] bg-white text-[var(--launch-ink)] group-hover:scale-110"
               }`}
             >
               <Icon className="h-6 w-6" />
             </div>
-            <h3 className="text-lg font-semibold">{persona.name}</h3>
-            <p className="mt-1 text-sm text-[var(--color-muted)]">
+            <h3 className="text-lg font-semibold text-[var(--launch-ink)]">
+              {persona.name}
+            </h3>
+            <p className="mt-1 text-sm text-[var(--launch-muted)]">
               {persona.description}
             </p>
-            <p className="mt-2 text-xs font-medium text-[var(--color-brand-strong)]">
+            <p className="mt-3 text-xs font-medium text-[var(--launch-meadow)]">
               {persona.sceneCount} 个场景
             </p>
           </button>
