@@ -1,16 +1,14 @@
-import { Worker } from "bullmq";
-import { PrismaClient } from "@prisma/client";
-import { buildBasicPrompt } from "@/lib/ai/prompt-builder";
+import { Job, Worker } from "bullmq";
+import { prisma } from "../lib/db";
+import { buildBasicPrompt } from "../lib/ai/prompt-builder";
 import {
   callGPT55Reasoning,
   type ReasoningResult,
-} from "@/lib/ai/advanced-reasoning";
-import { callGPTImage2 } from "@/lib/ai/image-generator";
-import { uploadToOSS } from "@/lib/oss";
-import type { GenerationJobData } from "@/lib/queue/types";
-import { connection, GENERATION_QUEUE } from "@/lib/queue/config";
-
-const prisma = new PrismaClient();
+} from "../lib/ai/advanced-reasoning";
+import { callGPTImage2 } from "../lib/ai/image-generator";
+import { uploadToOSS } from "../lib/oss";
+import type { GenerationJobData } from "../lib/queue/types";
+import { connection, GENERATION_QUEUE } from "../lib/queue/config";
 
 type ReasoningJson = {
   analysis: string;
@@ -19,7 +17,7 @@ type ReasoningJson = {
   compositionTip: string;
 };
 
-async function processJob(job: { data: GenerationJobData }) {
+async function processJob(job: Job<GenerationJobData>) {
   const { taskId } = job.data;
 
   const task = await prisma.generationTask.findUnique({
@@ -98,6 +96,21 @@ async function processJob(job: { data: GenerationJobData }) {
   } catch (err) {
     console.error(`[Worker] 任务失败: ${taskId}`, err);
 
+    const attempts = job.opts.attempts ?? 1;
+    const isFinalAttempt = job.attemptsMade + 1 >= attempts;
+
+    if (!isFinalAttempt) {
+      await prisma.generationTask.update({
+        where: { id: taskId },
+        data: {
+          retryCount: { increment: 1 },
+          errorMessage: err instanceof Error ? err.message : "生成失败",
+        },
+      });
+
+      throw err;
+    }
+
     await prisma.$transaction(async (tx) => {
       const user = await tx.user.update({
         where: { id: task.userId },
@@ -120,7 +133,8 @@ async function processJob(job: { data: GenerationJobData }) {
         where: { id: taskId },
         data: {
           status: "failed",
-          errorMessage: (err as Error).message ?? "生成失败",
+          retryCount: { increment: 1 },
+          errorMessage: err instanceof Error ? err.message : "生成失败",
         },
       });
     });
@@ -152,5 +166,6 @@ console.log("[Worker] 生成任务 Worker 已启动，等待任务...");
 process.on("SIGINT", async () => {
   console.log("[Worker] 正在关闭...");
   await worker.close();
+  await prisma.$disconnect();
   process.exit(0);
 });

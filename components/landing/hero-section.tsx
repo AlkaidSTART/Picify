@@ -65,19 +65,31 @@ export function HeroSection() {
       <div className="mx-auto grid w-full max-w-6xl gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
         <div className="text-center lg:text-left">
           <div ref={titleLinesRef}>
-            <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-white/70 px-4 py-1.5 text-xs text-[var(--color-muted)]" data-title-line>
+            <p
+              data-title-line
+              className="mb-5 inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-white/70 px-4 py-1.5 text-xs text-[var(--color-muted)]"
+            >
               <CheckCircle2 className="h-3.5 w-3.5 text-[var(--color-brand-strong)]" />
               面向 C 端用户的场景化 AI 出图流程
             </p>
 
-            <h1 className="font-display text-4xl font-semibold leading-tight tracking-tight sm:text-5xl lg:text-6xl" data-title-line>
+            <h1
+              data-title-line
+              className="font-display text-4xl font-semibold leading-tight tracking-tight sm:text-5xl lg:text-6xl"
+            >
               不写提示词，
             </h1>
-            <h1 className="font-display text-4xl font-semibold leading-tight tracking-tight sm:text-5xl lg:text-6xl" data-title-line>
+            <h1
+              data-title-line
+              className="font-display text-4xl font-semibold leading-tight tracking-tight sm:text-5xl lg:text-6xl"
+            >
               直接做出可发布视觉
             </h1>
 
-            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-[var(--color-muted)] sm:text-lg lg:mx-0" data-title-line>
+            <p
+              data-title-line
+              className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-[var(--color-muted)] sm:text-lg lg:mx-0"
+            >
               从角色到参数再到生成，全部收敛在一个稳定流程里。你只做业务选择，其余优化交给系统完成。
             </p>
           </div>

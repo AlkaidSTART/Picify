@@ -50,8 +50,8 @@ export function StepProgress({ currentStep, onStepClick }: StepProgressProps) {
             } ${isCurrent ? "text-[var(--color-brand-strong)]" : ""} ${
               isFuture ? "text-[var(--color-muted)]/60" : ""
             } ${isCompleted ? "text-[var(--color-brand-deep)]" : ""}`}
-            type="button"
             disabled={!canClick}
+            type="button"
             onClick={() => canClick && onStepClick?.(i)}
           >
             <span

@@ -55,8 +55,8 @@ export function PersonaSection() {
           return (
             <Link
               key={role.title}
-              href={role.href}
               className="glass-shallow group rounded-2xl p-6 transition-all hover:-translate-y-1 hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)]"
+              href={role.href}
             >
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--color-brand)] text-[var(--color-brand-strong)] transition-transform group-hover:scale-110">
                 <Icon className="h-6 w-6" />
