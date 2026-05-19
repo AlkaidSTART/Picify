@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Prisma } from "@prisma/client";
 import { withApiHandler } from "@/lib/api/handler";
 import { AppError } from "@/lib/api/errors";
 import { assertCsrf } from "@/lib/security/csrf";
@@ -65,7 +64,7 @@ export const POST = withApiHandler(async (req: NextRequest) => {
     throw new AppError("INSUFFICIENT_CREDITS", "余额不足，请先充值", 403);
   }
 
-  const result = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+  const result = await prisma.$transaction(async (tx) => {
     const updated = await tx.user.update({
       where: { id: userId, remainingCredits: { gte: costCredits } },
       data: { remainingCredits: { decrement: costCredits } },
